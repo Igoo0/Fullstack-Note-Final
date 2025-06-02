@@ -2,12 +2,12 @@ steps:
   # 0.
   - name: "gcr.io/cloud-builders/gsutil"
     args: ["cp", "${_ENV}", ".env"]
-    dir: "backend"
+    dir: "Backend"
 
  # 1. Build Docker image untuk backend
   - name: "gcr.io/cloud-builders/docker"
     args: ["build", "-t", "gcr.io/$PROJECT_ID/note-abed:${SHORT_SHA}", "."]
-    dir: "backend"
+    dir: "Backend"
 
   # 2. Push ke Container Registry / Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
