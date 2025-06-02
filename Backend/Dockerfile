@@ -8,8 +8,6 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --production
 
-COPY .env .env
-
 # Copy source code
 COPY . .
 
