@@ -1,0 +1,53 @@
+GET http://localhost:3000/notes
+
+###
+GET http://localhost:3000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTc0ODg1NzUxMSwiZXhwIjoxNzQ4ODU3NTQxfQ.NxqivoK1o4yJSknnjbe-MJUiqEk2ta4BDdg-zgLx0gc
+
+
+###
+GET http://localhost:3000/notes/1
+
+
+### REGISTER
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "password123"
+}
+
+### LOGIN
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "password123"
+}
+
+
+###
+POST http://localhost:3000/notes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTc0ODg1NzM4OCwiZXhwIjoxNzQ4ODU3NDE4fQ.PvhzTJ45uip8tOiGXPcuiB82f3hJSdhnVkDPtEUQMs0
+Content-Type: application/json
+
+{
+    "judul": "Note 7",
+    "konten": "Ini adalah note 2",
+    "tgl": "2025-03-01"
+}
+
+###
+PATCH http://localhost:3000/notes/1
+Content-Type: application/json
+
+{
+    "judul": "Note 1",
+    "konten": "aku sangat bahagia",
+    "tgl": "2025-03-01"
+}
+
+###
+DELETE http://localhost:3000/notes/2
