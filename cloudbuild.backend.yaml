@@ -20,7 +20,7 @@ steps:
       [
         "run",
         "deploy", 
-        "review-movie",
+        "note-abed",
         "--image",
         "gcr.io/$PROJECT_ID/note-abed:${SHORT_SHA}",
         "--timeout",
