@@ -13,7 +13,7 @@ function AddNote() {
         e.preventDefault();
         try {
 
-            await axios.post('https://notes-be111-751413038158.us-central1.run.app/notes',{
+            await axios.post('https://note-abed-559917148272.us-central1.run.app/notes',{
                 tgl,
                 judul,
                 konten
