@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { API, logout } from "../utils";
+import { Link, useNavigate } from "react-router-dom";
+import { API } from "../utils";
 
 const NoteList = () => {
   const [notes, setNotes] = useState([]);
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -55,10 +56,15 @@ const NoteList = () => {
   };
 
   const handleLogout = async () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      await logout();
+    try {
+      await API.delete("/logout", { withCredentials: true });
+      localStorage.removeItem("accessToken");
+      navigate("/"); // redirect ke halaman login
+    } catch (error) {
+      console.error("Gagal logout:", error);
     }
   };
+
 
   if (isLoading) {
     return (
