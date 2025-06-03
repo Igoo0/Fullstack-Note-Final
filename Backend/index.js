@@ -11,7 +11,11 @@ dotenv.config();
 const app = express();
 
 app.use(cookieParser());
-app.use(cors({ credentials:true,origin:'http://localhost:3000', 'https://abednotes-dot-xenon-axe-450704-n3.uc.r.appspot.com' }));
+app.use(cors({ credentials:true,origin:
+    'http://localhost:3000', // Keep for local frontend development
+    'http://localhost:3001', // Keep if you use another local port
+    'http://localhost:8080',
+    'https://abednotes-dot-xenon-axe-450704-n3.uc.r.appspot.com' }));
 app.use(express.json());
 
 app.use(UserRoute);
