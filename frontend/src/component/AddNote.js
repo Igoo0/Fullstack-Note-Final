@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { API } from "../utils";
 
-function AddNotes() {
+function AddNote() {
     const [creator, setCreator] = useState("");
     const [title, setTitle] = useState("");
     const [notes, setNotes] = useState("");
@@ -89,4 +89,4 @@ function AddNotes() {
     );
 }
 
-export default AddNotes;
+export default AddNote;
