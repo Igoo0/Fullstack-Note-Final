@@ -1,62 +1,52 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import UserRoute from "./routes/UserRoute.js";
-import NotesRoute from "./routes/NoteRoute.js";
-import sequelize from "./config/Database.js";
 
+console.log("Starting application...");
 dotenv.config();
 
 const app = express();
 
-app.use(cookieParser());
-app.use(cors({ credentials:true,origin:
-    'http://localhost:3000', // Keep for local frontend development
-    'http://localhost:3001', // Keep if you use another local port
-    'http://localhost:8080',
-    'https://abednotes-dot-xenon-axe-450704-n3.uc.r.appspot.com' }));
+// Basic middleware
+app.use(cors());
 app.use(express.json());
 
-app.use(UserRoute);
-app.use(NotesRoute);
-
-const start = async () => {
-  try {
-    console.log("Attempting database connection...");
-    
-    // Test database connection with timeout
-    await Promise.race([
-      sequelize.authenticate(),
-      new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
-      )
-    ]);
-    console.log("Database connected successfully");
-    
-    // Sync database models
-    await sequelize.sync();
-    console.log("Database synced");
-
-  } catch (error) {
-    console.error("Database connection failed:", error);
-    // Continue without database for debugging
-    console.log("Starting server without database connection...");
-  }
-
-  // Always start the server even if DB fails
-  const port = process.env.PORT || 3000;
-  app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running on port ${port}`);
+// Health check endpoint
+app.get('/health', (req, res) => {
+  console.log("Health check called");
+  res.status(200).json({ 
+    status: 'OK', 
+    message: 'Server is running',
+    timestamp: new Date().toISOString(),
+    env: {
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT,
+      DB_HOST: process.env.DB_HOST ? 'SET' : 'NOT SET'
+    }
   });
-};
+});
 
-    // Menggunakan PORT dari environment atau default ke 5000
-    const port = process.env.PORT || 3000;
-    app.listen(port, '0.0.0.0',() => console.log(`Server running on port ${port}`));
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-};
+// Basic route
+app.get('/', (req, res) => {
+  console.log("Root endpoint called");
+  res.json({ message: 'Backend is running!' });
+});
 
-start();
+// Error handling
+app.use((err, req, res, next) => {
+  console.error('Error occurred:', err);
+  res.status(500).json({ error: err.message });
+});
+
+const port = process.env.PORT || 8080;
+
+console.log(`Attempting to start server on port ${port}`);
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`✅ Server successfully running on port ${port}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log('Server is ready to accept connections');
+}).on('error', (err) => {
+  console.error('❌ Server failed to start:', err);
+  process.exit(1);
+});
