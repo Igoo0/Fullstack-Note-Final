@@ -32,7 +32,7 @@ steps:
         "--timeout",
         "300s",
         "--port",
-        "3000",
+        "5000",
         "--region",
         "us-central1",
         "--allow-unauthenticated",
