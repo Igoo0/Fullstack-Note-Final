@@ -23,9 +23,33 @@ app.use(NotesRoute);
 
 const start = async () => {
   try {
-    await sequelize.authenticate();
-    console.log("Database connected");
-    await sequelize.sync(); // sinkronisasi model
+    console.log("Attempting database connection...");
+    
+    // Test database connection with timeout
+    await Promise.race([
+      sequelize.authenticate(),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
+      )
+    ]);
+    console.log("Database connected successfully");
+    
+    // Sync database models
+    await sequelize.sync();
+    console.log("Database synced");
+
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    // Continue without database for debugging
+    console.log("Starting server without database connection...");
+  }
+
+  // Always start the server even if DB fails
+  const port = process.env.PORT || 3000;
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running on port ${port}`);
+  });
+};
 
     // Menggunakan PORT dari environment atau default ke 5000
     const port = process.env.PORT || 3000;
