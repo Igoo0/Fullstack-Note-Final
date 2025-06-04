@@ -36,12 +36,6 @@ steps:
         "--region",
         "us-central1",
         "--allow-unauthenticated",
-        "--cpu",
-        "1",
-        "--memory",
-        "512Mi",
-        "--max-instances",
-        "10"
       ]
 
 options:
